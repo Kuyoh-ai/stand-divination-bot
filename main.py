@@ -40,10 +40,12 @@ async def profile(interaction: discord.Interaction):
     messages = []
     for channel in interaction.guild.text_channels:
         try:
-            async for message in channel.history(limit=100):
+            async for message in channel.history(limit=20):
+                msg_count = 0
                 if message.author == interaction.user:
                     messages.append(message.content)
-                    if len(messages) >= 30 or len("\n\n".join(messages)) > 500:
+                    msg_count += 1
+                    if len(messages) >= 30 or len("\n\n".join(messages)) > 500 or msg_count > 3:
                       break 
         except discord.errors.Forbidden:
             pass
